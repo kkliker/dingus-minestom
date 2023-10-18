@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+    maven { url = "https://repo.codemc.org/repository/maven-public/" }
+
+}
+
+dependencies {
+    implementation 'dev.hollowcube:minestom-ce:34558e75ee'
+    implementation 'com.github.EmortalMC:Rayfast:d198fa1e86'
+    implementation "com.googlecode.json-simple:json-simple:1.1.1"
+
+
+    compileOnly 'org.projectlombok:lombok:1.18.28'
+    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+
+    compileOnly "dev.jorel:commandapi-bukkit-core:9.0.2"
+}
+jar {
+    manifest {
+        // WARNING: change the 'Main-Class' value
+        attributes 'Main-Class': 'qship.Main',
+                "Multi-Release": true
+    }
+}
+
+compileJava.options.encoding = "UTF-8"
