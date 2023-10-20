@@ -14,10 +14,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'dev.hollowcube:minestom-ce:34558e75ee'
-    implementation 'com.github.EmortalMC:Rayfast:d198fa1e86'
-    implementation "com.googlecode.json-simple:json-simple:1.1.1"
 
+    implementation 'com.github.kkliker:paradisecore:09109249ed'
+    implementation "com.googlecode.json-simple:json-simple:1.1.1"
+    implementation 'org.slf4j:slf4j-log4j12:2.0.7'
+    implementation 'dev.hollowcube:polar:1.3.2'
+    implementation 'com.github.EmortalMC:Rayfast:d198fa1e86'
 
     compileOnly 'org.projectlombok:lombok:1.18.28'
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
