@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id "com.github.johnrengelman.shadow" version "6.1.0"
+    // id "com.github.johnrengelman.shadow" version "6.1.0" // crashing with gradle 8.x
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'ru.sheep'
+version '1.0.1'
 
 repositories {
     mavenCentral()
@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
 
-    implementation 'com.github.kkliker:paradisecore:09109249ed'
+    implementation 'dev.hollowcube:minestom-ce:5347c0b11f'
     implementation "com.googlecode.json-simple:json-simple:1.1.1"
     implementation 'org.slf4j:slf4j-log4j12:2.0.7'
     implementation 'dev.hollowcube:polar:1.3.2'
