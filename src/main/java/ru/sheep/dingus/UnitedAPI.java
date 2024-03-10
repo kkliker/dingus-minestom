@@ -2,16 +2,19 @@ package ru.sheep.dingus;
 
 import com.extollit.tuple.Pair;
 import lombok.Getter;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.*;
 import net.minestom.server.entity.metadata.display.AbstractDisplayMeta;
 import net.minestom.server.entity.metadata.display.TextDisplayMeta;
+import net.minestom.server.instance.Instance;
 import net.minestom.server.item.ItemStack;
 import net.minestom.server.item.Material;
 import net.minestom.server.item.metadata.CrossbowMeta;
 import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
 import net.minestom.server.network.packet.server.play.TeamsPacket;
+import net.minestom.server.sound.SoundEvent;
 import org.jetbrains.annotations.Nullable;
 import ru.sheep.dingus.api.MessageUtil;
 import ru.sheep.dingus.api.ComponentUtil;
@@ -38,14 +41,16 @@ public class UnitedAPI {
     public static void completeTask(Quest quest, DingusPlayer player) {
 
         player.getTask_state().set(0);
+        MessageUtil.sendStaticAnnosoumentBossBar(quest, player);
         quest.setComplete(true);
 
         Dingus.getGlobalSidebar().update(Dingus.getSession().questContainer().values());
-        MessageUtil.sendStaticAnnosoumentBossBar(quest, player);
 
     }
 
     public static void kill(Player killer, Entity entity) {
+
+        killer.getInstance().playSound(Sound.sound(SoundEvent.ENTITY_FIREWORK_ROCKET_BLAST, Sound.Source.PLAYER, 1f, 1f));
 
         if (entity instanceof Player player) {
             DingusPlayer dp = DingusPlayer.from(player.getUuid());
@@ -318,26 +323,38 @@ public class UnitedAPI {
     public static void aim(DingusPlayer dingusPlayer){
         ItemStack it1 = dingusPlayer.getPlayer().getItemInMainHand();
         ItemStack it2 = dingusPlayer.getPlayer().getItemInOffHand();
-        addProjective(it1);
-        addProjective(it2);
+
+        var it11 = addProjective(it1);
+        var it22 = addProjective(it2);
+
+        if(it11 != null) dingusPlayer.getPlayer().setItemInMainHand(it11);
+        if(it22 != null) dingusPlayer.getPlayer().setItemInOffHand(it22);
+        dingusPlayer.getPlayer().getInventory().update();
     }
     public static void noAim(DingusPlayer dingusPlayer){
         ItemStack it1 = dingusPlayer.getPlayer().getItemInMainHand();
         ItemStack it2 = dingusPlayer.getPlayer().getItemInOffHand();
-        removeProjective(it1);
-        removeProjective(it2);
+        var it11 = removeProjective(it1);
+        var it22 = removeProjective(it2);
+
+        if(it11 != null) dingusPlayer.getPlayer().setItemInMainHand(it11);
+        if(it22 != null) dingusPlayer.getPlayer().setItemInOffHand(it22);
+
+        dingusPlayer.getPlayer().getInventory().update();
     }
-    public static void addProjective(ItemStack itemStack){
-        if(itemStack.material() != Material.CROSSBOW) return;
-           itemStack.withMeta(CrossbowMeta.class,meta ->{
-               meta.projectile(ItemStack.of(Material.ARROW));
+    public static ItemStack addProjective(ItemStack itemStack){
+        if(itemStack.material() != Material.CROSSBOW) return null;
+
+        return itemStack.withMeta(CrossbowMeta.class,meta ->{
+               meta.charged(true);
            });
 
     }
-    public static void removeProjective(ItemStack itemStack){
-        if(itemStack.material() != Material.CROSSBOW) return;
-        itemStack.withMeta(CrossbowMeta.class,meta ->{
-            meta.projectile(ItemStack.of(Material.AIR));
+    public static ItemStack removeProjective(ItemStack itemStack){
+        if(itemStack.material() != Material.CROSSBOW) return null;
+
+        return itemStack.withMeta(CrossbowMeta.class,meta ->{
+            meta.charged(false);
         });
     }
 

@@ -9,9 +9,7 @@ import java.io.*;
 public class ServerConfig {
 
    private static int amplifier = 1;
-
    private static int PORT;
-
    private static int NPC;
 
    public static void init(){

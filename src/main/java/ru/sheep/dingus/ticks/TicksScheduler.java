@@ -7,13 +7,20 @@ import ru.sheep.dingus.Dingus;
 import ru.sheep.dingus.UnitedAPI;
 import ru.sheep.dingus.api.InstanceHelper;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class TicksScheduler {
 
     public static void run(){
 
-        MinecraftServer.getSchedulerManager().scheduleTask(() ->{
-          new IntersectTicker().tick();
-        },TaskSchedule.seconds(0),TaskSchedule.nextTick(),ExecutionType.ASYNC);
+        IntersectTicker intersectTicker = new IntersectTicker();
+
+        ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() ->{
+            intersectTicker.tick();
+        }, 0, 100, TimeUnit.MILLISECONDS);
 
         MinecraftServer.getSchedulerManager().scheduleTask(() ->{
             new SessionsTicker(Dingus.getSession(), InstanceHelper.getOverworld()).tick();
@@ -25,7 +32,7 @@ public class TicksScheduler {
 
         MinecraftServer.getSchedulerManager().scheduleTask(() ->{
             new QuestCompletetionsTicker().tick();
-        },TaskSchedule.seconds(0),TaskSchedule.tick(5),ExecutionType.ASYNC);
+        },TaskSchedule.seconds(0),TaskSchedule.tick(5),ExecutionType.SYNC);
 
     }
 

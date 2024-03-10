@@ -26,7 +26,6 @@ public class AreaParticlesTicker extends AbstractTicker{
     private static final double radius = 0.8;
     private final List<Quest> quests;
 
-
     public AreaParticlesTicker(List<Quest> quests){
         this.quests = new ArrayList<>(quests);
     }

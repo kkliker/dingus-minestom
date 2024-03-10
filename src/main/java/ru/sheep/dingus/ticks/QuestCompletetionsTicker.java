@@ -26,6 +26,7 @@ public class QuestCompletetionsTicker extends AbstractTicker{
                 dingusPlayer.getTask_state().set(0);
                 Quest q = dingusPlayer.getCurrentQuest();
                 dingusPlayer.getPlayer().sendPacket(PacketsAPI.textDisplaySetTextPacket(q.getHologramEntityId(), ComponentUtil.task_name(q,dingusPlayer.getTask_state().get())));
+                dingusPlayer.setCurrentQuest(null);
                 return;
             }
 

@@ -1,6 +1,7 @@
 package ru.sheep.dingus.session;
 
 import ru.sheep.dingus.Dingus;
+import ru.sheep.dingus.GlobalSidebar;
 import ru.sheep.dingus.UnitedAPI;
 import ru.sheep.dingus.api.InstanceHelper;
 import ru.sheep.dingus.domain.DingusPlayer;
@@ -9,6 +10,7 @@ import ru.sheep.dingus.quests.Quest;
 import ru.sheep.dingus.quests.QuestContainer;
 import ru.sheep.dingus.ticks.SessionsTicker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +21,9 @@ public record GameSession(QuestContainer questContainer, long startTime, int hun
                           int hidersSize) {
 
     public void start(){
-        Dingus.getSession().questContainer().generateRequiredQuests();
+        questContainer.generateRequiredQuests();
+        Dingus.reset();
+        Dingus.getGlobalSidebar().update(questContainer.values());
     }
     public long timeInSeconds(){
         return (System.currentTimeMillis() - startTime) / 1000;

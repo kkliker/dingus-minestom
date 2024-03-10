@@ -6,6 +6,7 @@ import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.item.Material;
 import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
+import ru.sheep.dingus.UnitedAPI;
 import ru.sheep.dingus.api.PacketsAPI;
 import ru.sheep.dingus.api.RayFastManager;
 import ru.sheep.dingus.domain.DingusPlayer;
@@ -28,33 +29,33 @@ public class IntersectTicker extends AbstractTicker{
 
             CompletableFuture.runAsync(() ->{
 
-                Entity entity = RayFastManager.intersectWithFirstEntity(player, instance,10).left;
+                Entity entity = RayFastManager.intersectWithFirstEntity(player, instance,20).left;
+
                 Entity lastTarget = dingusPlayer.getTargetEntity();
 
                 if (entity == null){
                     if(dingusPlayer.getTargetEntity() != null){
                         player.sendPacket(PacketsAPI.unGlowPacket(player,lastTarget));
+                        UnitedAPI.noAim(dingusPlayer);
                     }
                     dingusPlayer.setTargetEntity(null);
-                    return;
-                }
+                    return;}
 
                 if(lastTarget == null){
                     player.sendPacket(PacketsAPI.glowPacket(player,entity));
+                    UnitedAPI.aim(dingusPlayer);
                     dingusPlayer.setTargetEntity(entity);
-                    return;
-                }
+                    return;}
 
-                if(lastTarget.getEntityId() == entity.getEntityId()){
-                    return;
-                }
+                if(lastTarget.getEntityId() == entity.getEntityId()) return;
 
                 if(entity.getEntityId() != lastTarget.getEntityId()){
                     player.sendPacket(PacketsAPI.unGlowPacket(player,lastTarget));
-                    return;
-                }
+                    UnitedAPI.noAim(dingusPlayer);
+                    return;}
 
                 player.sendPacket(PacketsAPI.glowPacket(player,entity));
+                UnitedAPI.aim(dingusPlayer);
                 dingusPlayer.setTargetEntity(entity);
 
             });

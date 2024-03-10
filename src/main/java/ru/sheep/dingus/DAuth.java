@@ -46,7 +46,7 @@ public class DAuth {
 
             DingusPlayer dingusPlayer = new DingusPlayer(player); // Registering player
 
-            dingusPlayer.setRole(Role.DEAD);
+            dingusPlayer.setRole(Role.HUNTER);
             dingusPlayer.chache();
 
             player.setRespawnPoint(getRandomSpawnPoint());

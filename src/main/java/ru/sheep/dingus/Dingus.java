@@ -31,8 +31,8 @@ public class Dingus {
         });
         npcs.clear();
         session = UnitedAPI.defaultGameSession();
-
         session.start();
+
         spawnNPC();
         spawnPlayers();
     }

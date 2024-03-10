@@ -8,6 +8,7 @@ import ru.sheep.dingus.quests.PreconfiguredTasks;
 import ru.sheep.dingus.quests.Quest;
 import ru.sheep.dingus.quests.QuestRisk;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.sheep.dingus.api.ComponentUtil.fromLegacy;
@@ -15,7 +16,7 @@ import static ru.sheep.dingus.api.ComponentUtil.fromLegacy;
 @Getter
 public class GlobalSidebar {
 
-    private final Sidebar sidebar = new Sidebar(fromLegacy("&f&lЗадания"));
+    private Sidebar sidebar = new Sidebar(fromLegacy("&f&lЗадания"));
 
     public void update(List<Quest> questList){
         clearLines(sidebar);
@@ -40,9 +41,9 @@ public class GlobalSidebar {
         });
     }
     public void clearLines(Sidebar sidebar){
-        sidebar.getLines().forEach(l ->{
-            sidebar.removeLine(l.getId());
-        });
+        if(sidebar.getViewers().isEmpty()) return;
+       // sidebar.getViewers().forEach(sidebar::removeViewer);
+        //this.sidebar = new Sidebar(fromLegacy("&f&lЗадания"));
     }
 
 }

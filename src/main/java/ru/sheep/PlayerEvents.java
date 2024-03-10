@@ -40,9 +40,10 @@ public class PlayerEvents {
 
         globalEventHandler.addListener(PlayerUseItemEvent.class, event ->{
 
+
+            DingusPlayer dingusPlayer = DingusPlayer.from(event.getPlayer().getUuid());
             if(event.getItemStack().material() == Material.CROSSBOW){
-                DingusPlayer dingusPlayer = DingusPlayer.from(event.getPlayer().getUuid());
-                Entity e = RayFastManager.intersectWithFirstEntity(event.getPlayer(),event.getInstance(),10).left;
+                Entity e = RayFastManager.intersectWithFirstEntity(event.getPlayer(),event.getInstance(),20).left;
                 if (e != null){
                     UnitedAPI.kill(event.getPlayer(),e);
                 }

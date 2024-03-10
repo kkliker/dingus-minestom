@@ -10,6 +10,7 @@ import net.minestom.server.timer.ExecutionType;
 import net.minestom.server.timer.TaskSchedule;
 import ru.sheep.dingus.domain.DingusPlayer;
 import ru.sheep.dingus.quests.Quest;
+import ru.sheep.dingus.quests.QuestRisk;
 
 import java.util.Random;
 import java.util.UUID;
@@ -85,15 +86,18 @@ public class MessageUtil {
         if(quest.isComplete()) nessecary = false;
         if(!quest.isRequired()) nessecary = false;
 
-        String nessecaryOrNot = nessecary ? "" : "non-essential";
+        String nessecaryOrNot = nessecary ? " " : "non-essential ";
 
-        System.out.println(nessecaryOrNot);
+        System.out.println(quest.isComplete() + " " + quest.isRequired());
+
+        var color = quest.getQuestRisk() == QuestRisk.RED ?  "&c&l" : "&f&l";
+
         sendDelayedAnnosoumentBossBar(
                 () -> {},
                 fromLegacy(
-                        String.format("&f&l%s completed a %s %s task %s seconds ago",
-                                player.getPlayer().getUsername(),nessecaryOrNot, quest.getQuestRisk().toString().toUpperCase()
-                                .replaceAll(" +", " "),
+                        String.format("%s%s completed a %s%s task %s seconds ago",
+                                color,
+                                player.getPlayer().getUsername(),nessecaryOrNot, quest.getQuestRisk().toString().toUpperCase(),
                                 delay)),
                 delay);
     }
