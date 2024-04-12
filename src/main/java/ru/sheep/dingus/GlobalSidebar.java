@@ -20,10 +20,12 @@ public class GlobalSidebar {
 
     public void update(List<Quest> questList){
         clearLines(sidebar);
+        System.out.println("exec");
         for (int x = 0; x < questList.size(); x++){
             Quest quest = questList.get(x);
             if(!quest.isComplete() && quest.isRequired()) {
                 //name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase(); useless code
+                System.out.println(x);
                 if (quest.getQuestRisk() == QuestRisk.RED) {
                     sidebar.createLine(new Sidebar.ScoreboardLine(String.valueOf(x + 1), fromLegacy(String.format("&c&l%s ▍ %s", quest.getName(), quest.getDescription())), x + 1));
                 } else {
@@ -41,9 +43,9 @@ public class GlobalSidebar {
         });
     }
     public void clearLines(Sidebar sidebar){
-        if(sidebar.getViewers().isEmpty()) return;
-       // sidebar.getViewers().forEach(sidebar::removeViewer);
-        //this.sidebar = new Sidebar(fromLegacy("&f&lЗадания"));
+        for (int x = 0; x < 100; x++){
+            sidebar.removeLine(String.valueOf(x + 1));
+        }
     }
 
 }

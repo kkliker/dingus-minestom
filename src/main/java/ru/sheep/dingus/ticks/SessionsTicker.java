@@ -38,8 +38,9 @@ public class SessionsTicker extends AbstractTicker {
         WinningType type = session.checkForEnd();
         if(type == WinningType.NONE) return;
 
-        endCurrentSession(type);
-    }
+        //    endCurrentSession(type);
+
+        }
 
     private void endCurrentSession(WinningType type) {
 

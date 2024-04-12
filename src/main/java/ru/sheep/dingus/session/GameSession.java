@@ -22,7 +22,7 @@ public record GameSession(QuestContainer questContainer, long startTime, int hun
 
     public void start(){
         questContainer.generateRequiredQuests();
-        Dingus.reset();
+      //  Dingus.reset();
         Dingus.getGlobalSidebar().update(questContainer.values());
     }
     public long timeInSeconds(){

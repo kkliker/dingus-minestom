@@ -45,8 +45,6 @@ public class Main {
         TicksScheduler.run();
         Dingus.spawnNPC();
 
-        Dingus.getGlobalSidebar().update(PreconfiguredTasks.tasks_towny());
-
         UnitedAPI.initTasksHolograms();
 
         MinecraftServer.getCommandManager().register(new CMDCLEAR());

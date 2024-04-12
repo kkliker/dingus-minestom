@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.Player;
+import net.minestom.server.thread.Acquirable;
 import ru.sheep.dingus.quests.Quest;
 
 import java.util.*;
@@ -14,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DingusPlayer {
 
     private static final Map<UUID, DingusPlayer> dingusPlayerMap = new HashMap<>();
-    private Entity targetEntity;
+    private Acquirable<Entity> targetEntity;
     private Player player;
     private Role role = Role.HIDER;
     private AtomicInteger task_state;

@@ -9,27 +9,36 @@ version '1.0.1'
 repositories {
     mavenCentral()
     maven { url 'https://jitpack.io' }
-    maven { url = "https://repo.codemc.org/repository/maven-public/" }
+    maven { url "https://repo.hypera.dev/snapshots/"}
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/"}
+    maven { url "https://repo.unnamed.team/repository/unnamed-public/"}
+    maven { url 'https://projectlombok.org/edge-releases' }
 
 }
 
 dependencies {
 
     implementation 'dev.hollowcube:minestom-ce:5347c0b11f'
-    implementation "com.googlecode.json-simple:json-simple:1.1.1"
+    implementation("com.google.guava:guava:33.0.0-jre")
+
     implementation 'org.slf4j:slf4j-log4j12:2.0.7'
-    implementation 'dev.hollowcube:polar:1.3.2'
-    implementation 'com.github.EmortalMC:Rayfast:d198fa1e86'
+    implementation 'org.apache.logging.log4j:log4j-api:2.23.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.0'
 
-    compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    implementation 'dev.hollowcube:polar:1.7.0'
+    implementation 'com.github.EmortalMC:Rayfast:7975ac5e4c7'
 
-    compileOnly "dev.jorel:commandapi-bukkit-core:9.0.2"
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
 }
 jar {
     manifest {
         // WARNING: change the 'Main-Class' value
-        attributes 'Main-Class': 'qship.Main',
+        attributes 'Main-Class': 'ru.sheep.Main',
                 "Multi-Release": true
     }
 }

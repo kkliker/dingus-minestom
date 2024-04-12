@@ -6,6 +6,7 @@ import net.minestom.server.entity.Player;
 import net.minestom.server.instance.Instance;
 import net.minestom.server.item.Material;
 import net.minestom.server.network.packet.server.play.EntityMetaDataPacket;
+import net.minestom.server.thread.Acquirable;
 import ru.sheep.dingus.UnitedAPI;
 import ru.sheep.dingus.api.PacketsAPI;
 import ru.sheep.dingus.api.RayFastManager;
@@ -27,15 +28,14 @@ public class IntersectTicker extends AbstractTicker{
 
             if (dingusPlayer == null) return;
 
-            CompletableFuture.runAsync(() ->{
 
                 Entity entity = RayFastManager.intersectWithFirstEntity(player, instance,20).left;
 
-                Entity lastTarget = dingusPlayer.getTargetEntity();
+                var lastTarget = dingusPlayer.getTargetEntity();
 
                 if (entity == null){
                     if(dingusPlayer.getTargetEntity() != null){
-                        player.sendPacket(PacketsAPI.unGlowPacket(player,lastTarget));
+                        player.sendPacket(PacketsAPI.unGlowPacket(player,lastTarget.unwrap()));
                         UnitedAPI.noAim(dingusPlayer);
                     }
                     dingusPlayer.setTargetEntity(null);
@@ -44,21 +44,20 @@ public class IntersectTicker extends AbstractTicker{
                 if(lastTarget == null){
                     player.sendPacket(PacketsAPI.glowPacket(player,entity));
                     UnitedAPI.aim(dingusPlayer);
-                    dingusPlayer.setTargetEntity(entity);
+                    dingusPlayer.setTargetEntity(Acquirable.of(entity));
                     return;}
 
-                if(lastTarget.getEntityId() == entity.getEntityId()) return;
+                if(lastTarget.unwrap().getEntityId() == entity.getEntityId()) return;
 
-                if(entity.getEntityId() != lastTarget.getEntityId()){
-                    player.sendPacket(PacketsAPI.unGlowPacket(player,lastTarget));
+                if(entity.getEntityId() != lastTarget.unwrap().getEntityId()){
+                    player.sendPacket(PacketsAPI.unGlowPacket(player,lastTarget.unwrap()));
                     UnitedAPI.noAim(dingusPlayer);
                     return;}
 
                 player.sendPacket(PacketsAPI.glowPacket(player,entity));
                 UnitedAPI.aim(dingusPlayer);
-                dingusPlayer.setTargetEntity(entity);
+                dingusPlayer.setTargetEntity(Acquirable.of(entity));
 
-            });
 
         }
     }
